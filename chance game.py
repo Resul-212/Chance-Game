@@ -1,26 +1,27 @@
 import random
-num=int(input("Eded daxil edin:"))
+print("The game is simple, computer generates a random number and you are trying to guess it")
+num=int(input("Enter a number(from 0 to 100):"))
 random_num=random.randint(0,100)
 sans=4
 while sans>0:
     if num==random_num:
-        print("Təbriklər düz tapdiniz")
+        print("congratulations you won!")
         break
     else:
-        print(f'Cavabınız səhvdir.{sans} şansınız qaldı')
+        print(f'The number isn\'t matching .{sans} chances left.')
         sans -= 1
         if num>random_num:
-            print("Daha  kicik eded daxil edin")
+            print("Enter a smaller number:")
         else:
-            print("Daha boyuk eded daxil edin")
+            print("Enter a larger number.")
         if abs(random_num-num)<10:
-            print("cox yaxinlasmisiniz")
+            print("You are very close!!!")
         elif abs(random_num-num)<20:
-            print("bir az yaxinlasmisiniz")
+            print("You got close.")
         elif abs(random_num-num)<40:
-            print("uzaqsiniz")
+            print("You are far away.")
         else:
-            print("cox uzaqsiniz")
-    num=int(input("Basqa eded daxil edin:"))
+            print("You are very very far away.")
+    num=int(input("Enter a different number:"))
 if sans==0:
-    print(f"Uduzdunuz.Reqem {random_num} idi")
+    print(f"You lost. The number was {random_num}.")
