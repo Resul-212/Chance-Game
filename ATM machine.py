@@ -6,5 +6,5 @@ for i in range(0,len(list1)):
         list2[i]=amount//list1[i]
         amount%=list1[i]
 for i in range(0,len(list1)):
-    if list[i]!=0:
+    if list2[i]!=0:
         print(f'{list2[i]} pieces of {list1[i]} bills')
