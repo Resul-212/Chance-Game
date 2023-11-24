@@ -1,12 +1,22 @@
 import random
+dominoes=[]
 ply_deck = []
 ai_deck = []
-dominoes = [[0, 0], [0, 1], [0, 2], [0, 3], [0, 4], [0, 5], [0, 6], [1, 1], [1, 2], [1, 3], [1.4], [1, 5], [1, 6],
-            [2, 2], [2, 3], [2, 4], [2, 5], [2, 6], [3, 3], [3, 4], [3, 5], [3, 6], [4, 4], [4, 5], [4, 6], [5, 5],
-            [5, 6], [6, 6]]
-doubles = [[1, 1], [2, 2],[3,3],[4,4],[5,5],[6,6],[0, 0]]
+doubles=[]
+game=""
 
-# creating random decks
+for i in range(0,7):
+    for j in range(0,7):
+        if f'{str(i)}|{str(j)}' not in dominoes and f'{str(j)}|{str(i)}' not in dominoes:
+            dominoes.append(f'{str(i)}|{str(j)}')
+            if j==i:
+                doubles.append(f'{str(i)}|{str(j)}')
+        else:
+            continue
+doubles.remove("0|0")
+doubles.append("0|0")
+
+
 for i in range(0, 7):
     temp = random.choice(dominoes)
     ply_deck.append(temp)
@@ -16,74 +26,37 @@ for i in range(0, 7):
     dominoes.remove(temp)
 
 
-# getting domino from stock
 def stock():
-    if len(dominoes)!=0:
+    if len(dominoes) != 1:
         temporary = random.choice(dominoes)
         return temporary
     else:
         print("There are no dominoes in stock.")
 
 
-# 1 means player's turn 2 means AI's turn
-game=[]
-turn = 0
+def ai():
+    for i in ai_deck:
+        if game[0]==i[0] or game[0]==i[1]:
+
+def flipTile(tile):
+    return [tile[1], tile[0]]
+
+
+
+turn=0
 for double in doubles:
     if double in ply_deck:
         turn = 2
-        game.append(double)
+        game+=double
         ply_deck.remove(double)
-        zad=double
+        print(f"You have played {double}")
         break
     if double in ai_deck:
         turn = 1
-        game.append(double)
+        game+=double
         ai_deck.remove(double)
+        print(f"Ai have played {double}")
         break
-if turn == 0:
-    exit("No one has doubles, start the game again.")
-print("Game has started!!!")
-if turn == 1:
-    print("AI made first move.")
-# game
-while len(ply_deck) != 0 or len(ai_deck) != 0:
-    left_side=(game[0])[0]
-    right_side=(game[-1])[1]
-    print('""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""')
-    if turn == 2:
-        print(f'You have played {zad}')
-    print("Dominoes on table:")
-    print(game)
-    print(f'Dominoes\' count in stock:{len(dominoes)}')
-    print("Your deck:")
-    for i in range(0,len(ply_deck)):  # printing player's deck
-        print(f'{i+1}.{ply_deck[i]}')
-    if turn==1:
-        while len(dominoes)!=1:
-            choice=input("Do you want a domino from stock?(yes or no)").lower()
-            print(choice)
-            if choice=="yes" or choice=="no":
-                if choice=="yes":
-                    stk_domino=stock()
-                    ply_deck.append(stk_domino)
-                    dominoes.remove(stk_domino)
-                    print('""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""')
-                    print("Dominoes on table:")
-                    print(game)
-                    print(f'Dominoes\' count in stock:{len(dominoes)}')
-                    print("Your deck:")
-                    for i in range(0, len(ply_deck)):  # printing player's deck
-                        print(f'{i + 1}.{ply_deck[i]}')
-                else:
-                    break
-            else:
-                print("You must write yes or no.Try again")
-                continue
-    else:
-        playable_dominoes = 0
-        for i in ai_deck:
-            if i[0] == left_side or i[1] == right_side or i[0] == right_side or i[1] == left_side:
-                playable_dominoes += 1
-        while len(dominoes) != 1 and playable_dominoes==0:
-            stk_domino=stock()
-            dominoes.remove(stk_domino)
+if turn==0:
+    exit("No one has doubles. Start again")
+print(game)
