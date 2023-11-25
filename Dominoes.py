@@ -144,9 +144,13 @@ while len(ply_deck)!=0 and len(ai_deck)!=0:
             input("You said pass.Press Enter to continue.")
             turn=2
             continue
-        #try:
-        index=int(input("Write the index of domino you want to play:"))-1
-        #except IndexError:
+        index=-1
+        while index==-1:
+            try:
+                index=int(input("Write the index of domino you want to play:"))-1
+            except ValueError:
+                print("Enter int type not str or list type.")
+
 
         if 0>=(index+1) or (index+1)>len(ply_deck):
             print("Enter a valid index.")
@@ -238,3 +242,4 @@ if len(ply_deck)==0:
     print("Congratulations!!! You won.")
 elif len(ai_deck)==0:
     print("You lost. AI has won")
+
