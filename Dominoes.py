@@ -115,11 +115,18 @@ if turn==0:
 
 
 # Game
+ai_choice=""
+player_choice=""
 while len(ply_deck)!=0 and len(ai_deck)!=0:
     interface()
+    if ai_choice=="pass" and player_choice=="pass":
+        print(f'AI hand {ai_deck}')
+        print(f'Player\' hand {ply_deck}')
+        exit("It is a tie.")
     left_side=game[0]
     right_side=game[len(game)-1]
     if turn==1:  # Player's turn
+        player_choice=""
         choice = ""
         side_choice = ""
         while len(dominoes)!=1:
@@ -136,22 +143,25 @@ while len(ply_deck)!=0 and len(ai_deck)!=0:
             elif choice=="no":
                 break
             else:
+                choice=""
                 print("Enter valid answer.(yes or no)")
                 input("Press ENTER to continue.")
                 continue
-        if len(dominoes) == 1 and not(ply_domino[0]==left_side or ply_domino[2]==left_side or ply_domino[0]==right_side or ply_domino[2]==right_side):
-            print("No dominoes left in stock and your dominoes not matching.")
-            input("You said pass.Press Enter to continue.")
-            turn=2
-            continue
+        if len(dominoes)==1:
+            player_choice=input("There are no dominoes left in stock. If you don't have any dominoes to play,then write pass.If you don't just press ENTER.")
+            if player_choice=="pass":
+                player_choice=input("It is your second chance do you want to say pass?(If you dont want press ENTER)")
+                if player_choice!="pass":
+                    player_choice=""
+                else:
+                    turn=2
+                    continue
         index=-1
         while index==-1:
             try:
                 index=int(input("Write the index of domino you want to play:"))-1
             except ValueError:
-                print("Enter int type not str or list type.")
-
-
+                print("Enter only integer type.")
         if 0>=(index+1) or (index+1)>len(ply_deck):
             print("Enter a valid index.")
             input("Press ENTER to continue.")
@@ -218,13 +228,15 @@ while len(ply_deck)!=0 and len(ai_deck)!=0:
                 ply_deck.remove(ply_domino)
                 continue
         else:
-            input("Domino is not matching select another one.Press ENTER to continue")
+            input("Domino is not matching select another one or get a one from stock.Press ENTER to continue")
             continue
     elif turn==2:  # AI's turn
+        ai_choice=""
         side = []
         ai_domino=ai()
         if ai_domino=="pass":
             input("AI said pass.Press ENTER to continue")
+            ai_choice='pass'
             turn=1
             continue
         else:
